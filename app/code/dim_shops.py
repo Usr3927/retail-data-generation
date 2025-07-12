@@ -3,12 +3,13 @@ import random as rnd
 
 class dim_shops:
 
-    def __init__(self, DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT):
+    def __init__(self, DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, nShops):
         self.DB_HOST=DB_HOST
         self.DB_NAME=DB_NAME
         self.DB_USER=DB_USER
         self.DB_PASS=DB_PASS
         self.DB_PORT=DB_PORT
+        self.nShops=nShops
         self.data=[]
 
     def run(self):
@@ -68,7 +69,7 @@ class dim_shops:
         )
         conn.commit()
         
-        for i in range(0,1637,1):
+        for i in range(0,self.nShops,1):
             query=f"""
                     INSERT INTO dim_tiendas (
                         id_tienda, nombre_tienda, ciudad_tienda, provincia_tienda, latitud_tienda, longitud_tienda

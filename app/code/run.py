@@ -13,11 +13,11 @@ DB_PORT='5432'
 products=dim_products(DB_HOST,DB_NAME,DB_USER,DB_PASS,DB_PORT)
 products.run()
 
-customers=dim_customers(DB_HOST,DB_NAME,DB_USER,DB_PASS,DB_PORT)
-customers.run()
-
-shops=dim_shops(DB_HOST,DB_NAME,DB_USER,DB_PASS,DB_PORT)
+shops=dim_shops(DB_HOST,DB_NAME,DB_USER,DB_PASS,DB_PORT,10)
 shops.run()
+
+customers=dim_customers(DB_HOST,DB_NAME,DB_USER,DB_PASS,DB_PORT, shops.data)
+customers.run()
 
 orders=fact_orders(DB_HOST,DB_NAME,DB_USER,DB_PASS,DB_PORT,customers.data, shops.data)
 orders.run()
