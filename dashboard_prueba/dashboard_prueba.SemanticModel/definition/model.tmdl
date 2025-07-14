@@ -1,0 +1,26 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-ES
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["fact_orders_products","fact_orders","dim_clientes","dim_productos","dim_tiendas","Medidas","dim_fechas"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.144.1378.0 (25.06)+cba1e61f16ea36d44901f06fa446299040122394
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table fact_orders
+ref table dim_clientes
+ref table dim_productos
+ref table dim_tiendas
+ref table Medidas
+ref table dim_fechas
+ref table dim_dow
+
+ref cultureInfo es-ES
+

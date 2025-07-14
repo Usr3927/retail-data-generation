@@ -1,0 +1,75 @@
+table dim_tiendas
+	lineageTag: 4039727f-5e29-4752-844c-0fd4f9cb0e59
+
+	column id_tienda
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: 08ebb0da-7ac0-4b6d-8073-6218eadf8b4b
+		summarizeBy: none
+		sourceColumn: id_tienda
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_tienda
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 2c7a4ae1-eb90-43db-b87d-fb050c8e920d
+		summarizeBy: none
+		sourceColumn: nombre_tienda
+
+		annotation SummarizationSetBy = Automatic
+
+	column ciudad_tienda
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: ce09e8b8-8ec1-4073-a603-1739d529311a
+		summarizeBy: none
+		sourceColumn: ciudad_tienda
+
+		annotation SummarizationSetBy = Automatic
+
+	column provincia_tienda
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 0c8264e4-89bd-4c0c-841b-84ce883d41e7
+		summarizeBy: none
+		sourceColumn: provincia_tienda
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitud_tienda
+		dataType: double
+		sourceProviderType: double
+		lineageTag: b9d2fc74-d4e1-4e8f-a916-46fbf6da6e53
+		summarizeBy: none
+		sourceColumn: latitud_tienda
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitud_tienda
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 263b411c-b343-4a98-bbc0-bae7af6176c2
+		summarizeBy: none
+		sourceColumn: longitud_tienda
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_tiendas = m
+		mode: directQuery
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost", "retail-data"),
+				    public_dim_tiendas = Origen{[Schema="public",Item="dim_tiendas"]}[Data]
+				in
+				    public_dim_tiendas
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

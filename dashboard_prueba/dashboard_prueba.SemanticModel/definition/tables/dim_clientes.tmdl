@@ -1,0 +1,89 @@
+table dim_clientes
+	lineageTag: 8cb8fe5e-8278-4946-9ebc-141aed3f4484
+
+	column id_cliente
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: ebb8ed93-60d2-4fdb-a470-6c5b53dc829f
+		summarizeBy: none
+		sourceColumn: id_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column sexo
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 7e46bb54-ec35-42ef-a7e8-d95174116ede
+		summarizeBy: none
+		sourceColumn: sexo
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_cliente
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 8df7e133-23a7-4a5c-a855-6599a97367d4
+		summarizeBy: none
+		sourceColumn: nombre_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column apellido_1_cliente
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 2f7158fa-5cb4-4efb-821a-45658d425080
+		summarizeBy: none
+		sourceColumn: apellido_1_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column apellido_2_cliente
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: fc2c429a-99b5-4d62-a7f0-627d152aa941
+		summarizeBy: none
+		sourceColumn: apellido_2_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column dni_cliente
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 935b1310-a25f-4986-9448-42054a0e5489
+		summarizeBy: none
+		sourceColumn: dni_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column provincia_cliente
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: b725f3c3-4fdd-44f7-a614-b0e3fd56b202
+		summarizeBy: none
+		sourceColumn: provincia_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column ciudad_cliente
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 23ef6862-5be2-4662-a240-b5e7ebf265b0
+		summarizeBy: none
+		sourceColumn: ciudad_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_clientes = m
+		mode: directQuery
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost", "retail-data"),
+				    public_dim_clientes = Origen{[Schema="public",Item="dim_clientes"]}[Data]
+				in
+				    public_dim_clientes
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

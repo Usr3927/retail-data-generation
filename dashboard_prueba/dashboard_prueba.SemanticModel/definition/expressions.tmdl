@@ -1,0 +1,12 @@
+expression fact_orders_products =
+		let
+		    Origen = PostgreSQL.Database("localhost", "retail-data"),
+		    public_fact_orders_products = Origen{[Schema="public",Item="fact_orders_products"]}[Data]
+		in
+		    public_fact_orders_products
+	lineageTag: 13c5b6f1-a143-4e80-8185-76e9d2596e74
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

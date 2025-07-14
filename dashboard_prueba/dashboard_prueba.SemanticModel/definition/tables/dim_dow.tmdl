@@ -1,0 +1,37 @@
+table dim_dow
+	lineageTag: 4eef0e20-f420-4fd9-affa-6fbdb0304f90
+
+	column número
+		formatString: 0
+		lineageTag: 26d59651-c6e1-4389-990a-a7c4ef653d3d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [número]
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre
+		lineageTag: 3ddced82-0d6e-47ac-8941-9efbdfc39fe8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [nombre]
+		sortByColumn: número
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_dow = calculated
+		mode: import
+		source =
+				DATATABLE("número",INTEGER,"nombre",STRING,
+				{
+				    {1,"Lunes"},
+				    {2,"Martes"},
+				    {3,"Miércoles"},
+				    {4,"Jueves"},
+				    {5,"Viernes"},
+				    {6,"Sábado"},
+				    {7,"Domingo"}
+				} )
+
+	annotation PBI_Id = f549622735b1468eb1dda264a65e2f2d
+

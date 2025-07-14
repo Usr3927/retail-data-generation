@@ -1,0 +1,97 @@
+table dim_fechas
+	lineageTag: 4132f5c1-05cd-4ef4-b2d8-dc8d88984602
+	dataCategory: Time
+
+	column fecha
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 90aa1aee-f0e0-445d-a336-4ac920350301
+		summarizeBy: none
+		sourceColumn: fecha
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column month
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: b3ab439c-3c00-40d0-891a-9247b476e3ec
+		summarizeBy: none
+		sourceColumn: month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: b8be2373-a8ca-4b70-8c1c-f6351d66ac34
+		summarizeBy: none
+		sourceColumn: quarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: string
+		sourceProviderType: decimal
+		lineageTag: 4de3276f-c903-4a9a-820a-cb3a8985309b
+		summarizeBy: none
+		sourceColumn: year
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_day_number
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 7306fce5-63f9-4af7-bea2-56c66a942110
+		summarizeBy: none
+		sourceColumn: week_day_number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	hierarchy 'year Jerarquía'
+		lineageTag: 32812c36-93b3-40b3-a5e5-131feb0a6647
+
+		level year
+			lineageTag: af572714-d5b7-4037-b5b0-7d8e5f802595
+			column: year
+
+		level quarter
+			lineageTag: 4efaa5e3-ade9-4829-a191-6cecab0b9fbd
+			column: quarter
+
+		level month
+			lineageTag: 2c075f82-a4ea-4fe9-a416-a26153cdcf18
+			column: month
+
+		level fecha
+			lineageTag: 03c479e2-5d2b-411b-b841-048662455b5e
+			column: fecha
+
+	partition dim_fechas = m
+		mode: directQuery
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost", "retail-data"),
+				    public_dim_fechas = Origen{[Schema="public",Item="dim_fechas"]}[Data]
+				in
+				    public_dim_fechas
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

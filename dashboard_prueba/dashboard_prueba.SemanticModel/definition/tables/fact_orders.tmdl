@@ -1,0 +1,113 @@
+table fact_orders
+	lineageTag: 82cff927-bea6-4df9-9bf9-675b9ba46a9f
+
+	column id_order
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: ae277a08-702f-4a33-bef7-6cbe9012e8af
+		summarizeBy: none
+		sourceColumn: id_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_customer
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 8e584c0a-ff0f-4efa-a5f1-5a0e4e90a83b
+		summarizeBy: none
+		sourceColumn: id_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha_order
+		dataType: dateTime
+		isNullable: false
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 058b8d0b-c24a-45d6-95b1-c3c105392ab4
+		summarizeBy: none
+		sourceColumn: fecha_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_shop
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: 8225f603-83aa-41d8-bf17-9625b1786124
+		summarizeBy: none
+		sourceColumn: id_shop
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_producto
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 6d6384bb-3fae-4110-ad8b-fe6a1e096480
+		summarizeBy: none
+		sourceColumn: id_producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column unidades
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d6102ad2-88a4-4bdf-b6ce-e4045779c73e
+		summarizeBy: sum
+		sourceColumn: unidades
+
+		annotation SummarizationSetBy = Automatic
+
+	column peso
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 26edc8a2-d2cf-4b5f-893e-df449c034419
+		summarizeBy: sum
+		sourceColumn: peso
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fecha
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 1dd6cd33-2ea0-4075-b2e3-5f1cc1157671
+		summarizeBy: none
+		sourceColumn: fecha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column hora = TIME(hour(fact_orders[fecha_order]),MINUTE(fact_orders[fecha_order]),SECOND(fact_orders[fecha_order]))
+		formatString: Short Time
+		lineageTag: dba3449b-0545-454f-8e04-e5bef384782a
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	partition fact_orders = m
+		mode: directQuery
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost", "retail-data"),
+				    public_fact_orders = Origen{[Schema="public",Item="fact_orders"]}[Data],
+				    #"Personalizada agregada" = Table.AddColumn(public_fact_orders, "fecha", each Date.From([fecha_order])),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Personalizada agregada",{{"fecha", type date}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Tipo cambiado", {"id_order"}, fact_orders_products, {"id_order"}, "fact_orders_products", JoinKind.LeftOuter),
+				    #"Se expandió fact_orders_products" = Table.ExpandTableColumn(#"Consultas combinadas", "fact_orders_products", {"id_producto", "unidades", "peso"}, {"id_producto", "unidades", "peso"})
+				in
+				    #"Se expandió fact_orders_products"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

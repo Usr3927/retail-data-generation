@@ -1,0 +1,95 @@
+table dim_productos
+	lineageTag: 9428c633-a989-4af9-a305-b5d7651f5553
+
+	column id_producto
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: 573e07e7-1d89-4693-a16b-6d3b2f00270f
+		summarizeBy: none
+		sourceColumn: id_producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_marca
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: fca2ebb1-7f9e-4b5a-880d-9907848f2aae
+		summarizeBy: none
+		sourceColumn: nombre_marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_producto
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: 763ee5a3-a45e-495a-bb07-3a44b80870a1
+		summarizeBy: none
+		sourceColumn: nombre_producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column precio_producto
+		dataType: double
+		isNullable: false
+		sourceProviderType: decimal
+		lineageTag: df946cae-0233-43a7-a03b-1b2569ac468c
+		summarizeBy: none
+		sourceColumn: precio_producto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column packaging
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 1f3e39a3-03c7-4611-80a5-11d45c810435
+		summarizeBy: none
+		sourceColumn: packaging
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_name
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 0b147d81-3dd8-40ac-b431-892e409cc100
+		summarizeBy: none
+		sourceColumn: unit_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column peso_variable
+		dataType: boolean
+		isNullable: false
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 3fd58432-9013-417a-9da2-c44a1a7ec858
+		summarizeBy: none
+		sourceColumn: peso_variable
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: bfff0ab5-5f33-40b2-8d5e-557a6cc491f4
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_productos = m
+		mode: directQuery
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost", "retail-data"),
+				    public_dim_productos = Origen{[Schema="public",Item="dim_productos"]}[Data]
+				in
+				    public_dim_productos
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,20 @@
+relationship cbd0558b-a286-b953-14dc-ba216b7844bf
+	fromColumn: fact_orders.id_customer
+	toColumn: dim_clientes.id_cliente
+
+relationship 628f7184-5791-fba9-c3d5-6dca07c52b30
+	fromColumn: fact_orders.id_producto
+	toColumn: dim_productos.id_producto
+
+relationship f4a051b8-5afe-6778-d0f1-f93f298db443
+	fromColumn: fact_orders.id_shop
+	toColumn: dim_tiendas.id_tienda
+
+relationship a485af70-a353-6f30-f3d8-35985ac1e86c
+	fromColumn: fact_orders.fecha
+	toColumn: dim_fechas.fecha
+
+relationship 9abf7857-26a9-03f0-c712-d497703820ef
+	fromColumn: dim_fechas.week_day_number
+	toColumn: dim_dow.número
+
