@@ -56,7 +56,7 @@ class fact_orders:
                 seconds=seconds
             )
             iCostumer=rnd.randrange(0,len(self.customers),1)
-            tiendasCiudad=[ shop for shop in self.shops if shop[2]==self.customers[iCostumer][6]]
+            tiendasCiudad=[ shop for shop in self.shops if shop[2]==self.customers[iCostumer][7]]
             tiendasCiudad=tiendasCiudad if len(tiendasCiudad)>0 and 0<rnd.randrange(0,100,1) else self.shops
             unknown=rnd.randrange(0,5,1)==0
             order=[
