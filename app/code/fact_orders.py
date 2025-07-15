@@ -35,7 +35,7 @@ class fact_orders:
             CREATE TABLE IF NOT EXISTS fact_orders (
                 id_order VARCHAR(50) PRIMARY KEY,
                 id_customer VARCHAR(50),
-                fecha_order TIMESTAMPTZ NOT NULL  NOT NULL,
+                fecha_order TIMESTAMPTZ NOT NULL,
                 id_shop VARCHAR(50) NOT NULL
             );
             """
